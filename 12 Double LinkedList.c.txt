@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+struct Node* head = NULL;
+
+// 1. Insertion at the End
+void insert(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        newNode->prev = NULL;
+        head = newNode;
+        return;
+    }
+
+    struct Node* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+
+    temp->next = newNode;
+    newNode->prev = temp;
+}
+
+// 2. Deletion of a specific value
+void deleteNode(int value) {
+    if (head == NULL) {
+        printf("List is empty!\n");
+        return;
+    }
+
+    struct Node* temp = head;
+
+    // Search for the node containing the value
+    while (temp != NULL && temp->data != value) {
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Value %d not found in list.\n", value);
+        return;
+    }
+
+    // Case 1:
+    if (temp == head) {
+        head = temp->next;
+    }
+
+    // Case 2:
+    if (temp->next != NULL) {
+        temp->next->prev = temp->prev;
+    }
+
+    // Case 3: 
+    if (temp->prev != NULL) {
+        temp->prev->next = temp->next;
+    }
+
+    free(temp);
+    printf("Node with value %d deleted.\n", value);
+}
+
+// 3. Display the list
+void display() {
+    struct Node* temp = head;
+    if (temp == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    printf("Forward:  ");
+    while (temp != NULL) {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    // Adding nodes
+    insert(10);
+    insert(20);
+    insert(30);
+    insert(40);
+    display();
+
+    // Deleting nodes
+    deleteNode(20); // Delete middle
+    display();
+
+    deleteNode(10); // Delete head
+    display();
+
+    return 0;
+}
