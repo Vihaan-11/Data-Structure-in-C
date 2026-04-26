@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Suffix {
+    char suffix[10];
+    char type[20];
+};
+
+struct Suffix rules[] = {
+    {"ah", "Noun"},
+    {"am", "Noun"},
+    {"ti", "Verb"},
+    {"ta", "Verb"},
+    {"ena", "Instrumental Case"},
+    {"aya", "Dative Case"}
+};
+
+int n = 6;
+
+void findSuffix(char word[]) {
+    int found = 0;
+
+    for (int i = 0; i < n; i++) {
+        int len_word = strlen(word);
+        int len_suf = strlen(rules[i].suffix);
+
+        if (len_word >= len_suf) {
+            if (strcmp(word + len_word - len_suf, rules[i].suffix) == 0) {
+                printf("Suffix: %s\nType: %s\n",
+                       rules[i].suffix, rules[i].type);
+                found = 1;
+            }
+        }
+    }
+
+    if (!found) {
+        printf("No known suffix found.\n");
+    }
+}
+
+int main() {
+    char word[50];
+
+    printf("Enter Sanskrit word (in English form): ");
+    scanf("%s", word);
+
+    findSuffix(word);
+
+    return 0;
+}
