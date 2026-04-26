@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct VedicText {
+    char title[100];
+    char category[50]; // Verse / Ritual / Philosophy
+    char content[300];
+    struct VedicText* next;
+};
+
+struct VedicText* head = NULL;
+
+void addText() {
+    struct VedicText* newNode = (struct VedicText*)malloc(sizeof(struct VedicText));
+
+    printf("Enter title: ");
+    scanf(" %[^\n]", newNode->title);
+
+    printf("Enter category (Verse/Ritual/Philosophy): ");
+    scanf("%s", newNode->category);
+
+    printf("Enter content: ");
+    scanf(" %[^\n]", newNode->content);
+
+    newNode->next = head;
+    head = newNode;
+
+    printf("Text added successfully!\n");
+}
+
+void displayAll() {
+    struct VedicText* temp = head;
+
+    if (temp == NULL) {
+        printf("No data available.\n");
+        return;
+    }
+
+    while (temp != NULL) {
+        printf("\nTitle: %s\nCategory: %s\nContent: %s\n",
+               temp->title, temp->category, temp->content);
+        temp = temp->next;
+    }
+}
+
+void searchCategory() {
+    char cat[50];
+    printf("Enter category: ");
+    scanf("%s", cat);
+
+    struct VedicText* temp = head;
+    int found = 0;
+
+    while (temp != NULL) {
+        if (strcmp(temp->category, cat) == 0) {
+            printf("\nTitle: %s\nContent: %s\n",
+                   temp->title, temp->content);
+            found = 1;
+        }
+        temp = temp->next;
+    }
+
+    if (!found)
+        printf("No matching records found.\n");
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n--- Vedic Text System ---\n");
+        printf("1. Add Text\n");
+        printf("2. Display All\n");
+        printf("3. Search by Category\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addText(); break;
+            case 2: displayAll(); break;
+            case 3: searchCategory(); break;
+            case 4: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
