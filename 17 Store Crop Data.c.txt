@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h
+
+struct Crop {
+    char name[50];
+    char soil[50];
+    int irrigation_days;
+    struct Crop* next;
+};
+
+struct Crop* head = NULL;
+
+void addCrop() {
+    struct Crop* newNode = (struct Crop*)malloc(sizeof(struct Crop));
+
+    printf("Enter crop name: ");
+    scanf("%s", newNode->name);
+
+    printf("Enter soil type (sandy/clay/loamy): ");
+    scanf("%s", newNode->soil);
+
+    printf("Enter irrigation interval (in days): ");
+    scanf("%d", &newNode->irrigation_days);
+
+    newNode->next = head;
+    head = newNode;
+
+    printf("Crop added successfully!\n");
+}
+
+void displayCrops() {
+    struct Crop* temp = head;
+
+    if (temp == NULL) {
+        printf("No crop data available.\n");
+        return;
+    }
+
+    printf("\n--- Crop List ---\n");
+    while (temp != NULL) {
+        printf("Crop: %s | Soil: %s | Irrigation: %d days\n",
+               temp->name, temp->soil, temp->irrigation_days);
+        temp = temp->next;
+    }
+}
+
+void recommendIrrigation() {
+    char cropName[50], soilType[50];
+    struct Crop* temp = head;
+
+    printf("Enter crop name: ");
+    scanf("%s", cropName);
+
+    printf("Enter soil type: ");
+    scanf("%s", soilType);
+
+    while (temp != NULL) {
+        if (strcmp(temp->name, cropName) == 0 &&
+            strcmp(temp->soil, soilType) == 0) {
+
+            printf("Recommended irrigation: Every %d days\n",
+                   temp->irrigation_days);
+            return;
+        }
+        temp = temp->next;
+    }
+
+    printf("No matching crop data found.\n");
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n--- Irrigation System ---\n");
+        printf("1. Add Crop Data\n");
+        printf("2. Display Crops\n");
+        printf("3. Recommend Irrigation\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addCrop(); break;
+            case 2: displayCrops(); break;
+            case 3: recommendIrrigation(); break;
+            case 4: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
