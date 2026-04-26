@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Species {
+    char name[50];
+    char habitat[50];
+    char tolerance[10]; 
+    struct Species* next;
+};
+
+struct Species* head = NULL;
+
+void addSpecies() {
+    struct Species* newNode = (struct Species*)malloc(sizeof(struct Species));
+
+    printf("Enter species name: ");
+    scanf("%s", newNode->name);
+
+    printf("Enter habitat: ");
+    scanf("%s", newNode->habitat);
+
+    printf("Enter pollution tolerance (High/Medium/Low): ");
+    scanf("%s", newNode->tolerance);
+
+    newNode->next = head;
+    head = newNode;
+
+    printf("Species added successfully!\n");
+}
+
+void displayGrouped() {
+    struct Species* temp;
+
+    char *levels[] = {"High", "Medium", "Low"};
+
+    for (int i = 0; i < 3; i++) {
+        printf("\n--- %s Pollution Tolerance ---\n", levels[i]);
+
+        temp = head;
+        int found = 0;
+
+        while (temp != NULL) {
+            if (strcmp(temp->tolerance, levels[i]) == 0) {
+                printf("Species: %s | Habitat: %s\n",
+                       temp->name, temp->habitat);
+                found = 1;
+            }
+            temp = temp->next;
+        }
+
+        if (!found) {
+            printf("No species in this category.\n");
+        }
+    }
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n--- Species Management System ---\n");
+        printf("1. Add Species\n");
+        printf("2. Display Grouped by Pollution Tolerance\n");
+        printf("3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addSpecies(); break;
+            case 2: displayGrouped(); break;
+            case 3: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
