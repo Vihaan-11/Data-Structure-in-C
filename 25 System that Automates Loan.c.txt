@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+struct Loan {
+    char name[50];
+    float income;
+    float loanAmount;
+    int years;
+};
+
+void checkEligibility(struct Loan l) {
+    if (l.income >= 25000 && l.loanAmount <= (l.income * 5)) {
+        printf("Loan Approved for %s\n", l.name);
+    } else {
+        printf("Loan Rejected for %s\n", l.name);
+    }
+}
+
+float calculateInterest(float p, float r, int t) {
+    return (p * r * t) / 100;
+}
+
+void calculateEMI(float totalAmount, int years) {
+    float emi = totalAmount / (years * 12);
+    printf("Monthly EMI: %.2f\n", emi);
+}
+
+int main() {
+    struct Loan l;
+
+    printf("Enter Name: ");
+    scanf("%s", l.name);
+
+    printf("Enter Monthly Income: ");
+    scanf("%f", &l.income);
+
+    printf("Enter Loan Amount: ");
+    scanf("%f", &l.loanAmount);
+
+    printf("Enter Loan Tenure (years): ");
+    scanf("%d", &l.years);
+
+    checkEligibility(l);
+
+    float interest = calculateInterest(l.loanAmount, 10, l.years);
+    printf("Total Interest: %.2f\n", interest);
+
+    float total = l.loanAmount + interest;
+    calculateEMI(total, l.years);
+
+    return 0;
+}
