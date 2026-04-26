@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Student {
+    int id;
+    char name[50];
+    float marks;
+    struct Student* next;
+};
+
+struct Student* head = NULL;
+
+void addStudent(int id, char name[], float marks) {
+    struct Student* newNode = (struct Student*)malloc(sizeof(struct Student));
+    newNode->id = id;
+    strcpy(newNode->name, name);
+    newNode->marks = marks;
+    newNode->next = head;
+    head = newNode;
+}
+
+void displayStudents() {
+    struct Student* temp = head;
+    while (temp != NULL) {
+        printf("ID: %d, Name: %s, Marks: %.2f\n", temp->id, temp->name, temp->marks);
+        temp = temp->next;
+    }
+}
+
+void searchStudent(int id) {
+    struct Student* temp = head;
+    while (temp != NULL) {
+        if (temp->id == id) {
+            printf("Found: %s with marks %.2f\n", temp->name, temp->marks);
+            return;
+        }
+        temp = temp->next;
+    }
+    printf("Student not found\n");
+}
+
+int main() {
+    addStudent(1, "Aman", 85.5);
+    addStudent(2, "Riya", 90.0);
+    addStudent(3, "Rahul", 78.0);
+
+    displayStudents();
+    searchStudent(2);
+
+    return 0;
+}
