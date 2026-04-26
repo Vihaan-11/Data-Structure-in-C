@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+struct Health {
+    char day[20];
+    int steps;
+    int calories;
+    float sleep;
+};
+
+struct Health data[MAX];
+int count = 0;
+
+void addData() {
+    if (count >= MAX) {
+        printf("Storage full!\n");
+        return;
+    }
+
+    printf("Enter day: ");
+    scanf("%s", data[count].day);
+
+    printf("Enter steps: ");
+    scanf("%d", &data[count].steps);
+
+    printf("Enter calories burned: ");
+    scanf("%d", &data[count].calories);
+
+    printf("Enter sleep hours: ");
+    scanf("%f", &data[count].sleep);
+
+    count++;
+    printf("Data added successfully!\n");
+}
+
+void displayData() {
+    if (count == 0) {
+        printf("No data available.\n");
+        return;
+    }
+
+    printf("\n--- Health Records ---\n");
+    for (int i = 0; i < count; i++) {
+        printf("%s -> Steps: %d | Calories: %d | Sleep: %.1f hrs\n",
+               data[i].day, data[i].steps, data[i].calories, data[i].sleep);
+    }
+}
+
+void visualize() {
+    if (count == 0) {
+        printf("No data to visualize.\n");
+        return;
+    }
+
+    printf("\n--- Step Count Visualization ---\n");
+    for (int i = 0; i < count; i++) {
+        printf("%s: ", data[i].day);
+
+        int bars = data[i].steps / 1000; // scale
+        for (int j = 0; j < bars; j++) {
+            printf("*");
+        }
+        printf(" (%d steps)\n", data[i].steps);
+    }
+
+    printf("\n--- Sleep Visualization ---\n");
+    for (int i = 0; i < count; i++) {
+        printf("%s: ", data[i].day);
+
+        int bars = (int)data[i].sleep;
+        for (int j = 0; j < bars; j++) {
+            printf("*");
+        }
+        printf(" (%.1f hrs)\n", data[i].sleep);
+    }
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n--- Health Tracker ---\n");
+        printf("1. Add Data\n");
+        printf("2. Display Data\n");
+        printf("3. Visualize Data\n");
+        printf("4. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addData(); break;
+            case 2: displayData(); break;
+            case 3: visualize(); break;
+            case 4: exit(0);
+            default: printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
