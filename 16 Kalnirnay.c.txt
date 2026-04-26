@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+void getHindiMonth(int m) {
+    char *months[] = {
+        "Chaitra", "Vaishakh", "Jyeshtha", "Ashadha",
+        "Shravan", "Bhadrapada", "Ashwin", "Kartika",
+        "Margashirsha", "Pausha", "Magha", "Phalguna"
+    };
+
+    printf("Hindi Month: %s\n", months[(m - 1) % 12]);
+}
+
+void getPaksha(int d) {
+    if (d <= 15)
+        printf("Paksha: Shukla Paksha\n");
+    else
+        printf("Paksha: Krishna Paksha\n");
+}
+
+void getTithi(int d) {
+    int tithi = d % 15;
+    if (tithi == 0) tithi = 15;
+
+    printf("Tithi: %d\n", tithi);
+}
+
+int main() {
+    int day, month, year;
+
+    printf("Enter Gregorian Date (dd mm yyyy): ");
+    scanf("%d %d %d", &day, &month, &year);
+
+    printf("\n--- Hindi Calendar (Approx) ---\n");
+
+    getHindiMonth(month);
+    getPaksha(day);
+    getTithi(day);
+
+    return 0;
+}
